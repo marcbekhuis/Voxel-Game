@@ -52,8 +52,8 @@ public class RenderBlocks : MonoBehaviour
         {
             if (renderedBlock.Key.x >= minRenderPositionX && renderedBlock.Key.x < maxRenderPositionX)
                 if (renderedBlock.Key.z >= minRenderPositionZ && renderedBlock.Key.z < maxRenderPositionZ) continue;
-            Destroy(renderedBlock.Value.block);
-            renderedBlock.Value.block = null;
+            //Destroy(renderedBlock.Value.block);
+            //renderedBlock.Value.block = null;
             tempData.Add(renderedBlock.Key);
         }
         foreach (var item in tempData)
@@ -80,7 +80,7 @@ public class RenderBlocks : MonoBehaviour
                         if (MapData.instance.renderedBlocks.ContainsKey(new Vector3Int(x, y, z))) continue;
                         if (!BlockHasAirAround(new Vector3Int(x, y, z))) continue;
                         GameObject placedCube = Instantiate(cube, new Vector3(x, y, z), new Quaternion(0, 0, 0, 0));
-                        MapData.instance.blocks[new Vector3Int(x, y, z)].block = placedCube;
+                        //MapData.instance.blocks[new Vector3Int(x, y, z)].block = placedCube;
                         MapData.instance.renderedBlocks.Add(new Vector3Int(x, y, z), MapData.instance.blocks[new Vector3Int(x, y, z)]);
                     }
                 }
