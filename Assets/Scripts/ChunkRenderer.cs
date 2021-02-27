@@ -28,9 +28,10 @@ public class ChunkRenderer : MonoBehaviour
             {
                 for (int y = 0; y < MapData.instance.maxHeight; y++)
                 {
-                    if (MapData.instance.blocks.ContainsKey(chunkPosition * MapRenderer.instance.chunksize + new Vector3Int(x, y, z)))
+                    Vector3Int blockPosition = chunkPosition * MapRenderer.instance.chunksize + new Vector3Int(x, y, z);
+                    if (MapData.instance.blocks.ContainsKey(blockPosition))
                     {
-                        AddVoxel(new Vector3Int(x,y,z), chunkPosition * MapRenderer.instance.chunksize + new Vector3Int(x, y, z));
+                        AddVoxel(new Vector3Int(x,y,z), MapData.instance.blocks[blockPosition]);
                     }
                 }
             }
@@ -47,22 +48,22 @@ public class ChunkRenderer : MonoBehaviour
         meshCollider.sharedMesh = mesh;
     }
 
-    private void AddVoxel(Vector3Int voxelPosition, Vector3Int blockPosition)
+    private void AddVoxel(Vector3Int voxelPosition, BlockData blockData)
     {
-        foreach (var voxelFace in MapData.instance.blocks[blockPosition].faceVisible)
+        foreach (var voxelFace in blockData.faceVisible)
         {
-            if(voxelFace.Value) AddFace(voxelFace.Key, voxelPosition);
+            if(voxelFace.Value) AddFace(voxelFace.Key, voxelPosition, blockData);
         }
     }
 
-    private void AddFace(string face, Vector3Int voxelPosition)
+    private void AddFace(string face, Vector3Int voxelPosition, BlockData blockData)
     {
         for (int i = 0; i < 6; i++)
         {
             vertices.Add(voxelPosition + VoxelData.voxelVerts[VoxelData.voxelFace[face][i]]);
             triangles.Add(vertexIndex);
 
-            uvs.Add(Vector2.zero);
+            uvs.Add(SpriteHandeler.instance.GetUvPosition(i, blockData.blockObject.GetSpritePosition(face)));
 
             vertexIndex++;
         }

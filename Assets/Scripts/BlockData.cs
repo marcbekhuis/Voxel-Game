@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class BlockData
 {
-    public BlockData(Vector3Int position)
+    public BlockData(Vector3Int position, BlockObject blockObject)
     {
         this.position = position;
+        this.blockObject = blockObject;
     }
 
     public Vector3Int position;
+    public BlockObject blockObject;
+
     public Dictionary<string, bool> faceVisible = new Dictionary<string, bool>
     {
         {"back", true }, // back Face

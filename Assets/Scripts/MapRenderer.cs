@@ -41,11 +41,11 @@ public class MapRenderer : MonoBehaviour
 
     private IEnumerator RenderChunks(Vector2Int currentPlayerChunkPosition)
     {
-        for (int x = currentPlayerChunkPosition.x - chunkRenderDistance; x <= currentPlayerChunkPosition.x + chunkRenderDistance; x++)
+        for (int y = currentPlayerChunkPosition.y - chunkRenderDistance; y <= currentPlayerChunkPosition.y + chunkRenderDistance; y++)
         {
-            for (int y = currentPlayerChunkPosition.y - chunkRenderDistance; y <= currentPlayerChunkPosition.y + chunkRenderDistance; y++)
+            for (int x = currentPlayerChunkPosition.x - chunkRenderDistance; x <= currentPlayerChunkPosition.x + chunkRenderDistance; x++)
             {
-                Debug.LogError("Chunk");
+                if (!InsideCircle(currentPlayerChunkPosition, new Vector2(x, y), chunkRenderDistance + 0.5f)) continue;
                 Vector2Int chunkPosition = new Vector2Int(x,y);
                 if (!chunks.ContainsKey(chunkPosition))
                     if (unUsedChunks.Count > 0) ReUseChunk(chunkPosition);
@@ -53,6 +53,8 @@ public class MapRenderer : MonoBehaviour
                 yield return null;
             }
         }
+
+        StartCoroutine(DestroyUnUsedChunks());
     }
 
     private void GetUnUsedChunks(Vector2Int currentPlayerChunkPosition)
@@ -73,6 +75,7 @@ public class MapRenderer : MonoBehaviour
 
     private void CreateChunk(Vector2Int chunkPosition)
     {
+        Debug.LogError("Create Chunk");
         ChunkRenderer placedChunk = Instantiate(chunkPrefab, chunksParent);
         placedChunk.transform.position = new Vector3(chunkPosition.x, 0, chunkPosition.y) * chunksize;
         chunks.Add(chunkPosition, placedChunk);
@@ -81,9 +84,27 @@ public class MapRenderer : MonoBehaviour
 
     private void ReUseChunk(Vector2Int chunkPosition)
     {
+        Debug.LogError("Reuse Chunk");
         ChunkRenderer placedChunk = unUsedChunks.Dequeue();
         placedChunk.transform.position = new Vector3(chunkPosition.x, 0, chunkPosition.y) * chunksize;
         chunks.Add(chunkPosition, placedChunk);
         placedChunk.RenderChunk(new Vector3Int(chunkPosition.x, 0, chunkPosition.y));
+    }
+
+    private bool InsideCircle(Vector2 centerCircle, Vector2 tilePostion, float radius)
+    {
+        float dx = centerCircle.x - tilePostion.x;
+        float dy = centerCircle.y - tilePostion.y;
+        float distanceSquared = dx * dx + dy * dy;
+        return distanceSquared <= radius * radius;
+    }
+
+    private IEnumerator DestroyUnUsedChunks()
+    {
+        while (unUsedChunks.Count > 0)
+        {
+            Destroy(unUsedChunks.Dequeue().gameObject);
+            yield return null;
+        }
     }
 }

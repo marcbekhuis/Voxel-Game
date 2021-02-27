@@ -45,4 +45,14 @@ public static class VoxelData
         {new Vector3Int(-1,0,0), "left"}, //Left Face
         {new Vector3Int(1,0,0), "right"}// Right Face
     };
+
+    public static readonly Vector2[] voxelUv = new Vector2[]
+    {
+        new Vector2(0.0f, 0.0f), // back Face
+        new Vector2(0.0f, 1.0f), // Front Face
+        new Vector2(1.0f, 0.0f), // Top Face
+        new Vector2(1.0f, 0.0f), // Bottom Face
+        new Vector2(0.0f, 1.0f), //Left Face
+        new Vector2(1.0f, 1.0f)// Right Face
+    };
 }
