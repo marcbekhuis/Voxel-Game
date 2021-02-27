@@ -6,14 +6,14 @@ public static class VoxelData
 {
     public static readonly Vector3[] voxelVerts = new Vector3[8]
     {
-        new Vector3(0.0f, 0.0f, 0.0f),
-        new Vector3(1.0f, 0.0f, 0.0f),
-        new Vector3(1.0f, 1.0f, 0.0f),
-        new Vector3(0.0f, 1.0f, 0.0f),
-        new Vector3(0.0f, 0.0f, 1.0f),
-        new Vector3(1.0f, 0.0f, 1.0f),
-        new Vector3(1.0f, 1.0f, 1.0f),
-        new Vector3(0.0f, 1.0f, 1.0f)
+        new Vector3(-0.5f, -0.5f, -0.5f),
+        new Vector3(0.5f, -0.5f, -0.5f),
+        new Vector3(0.5f, 0.5f, -0.5f),
+        new Vector3(-0.5f, 0.5f, -0.5f),
+        new Vector3(-0.5f, -0.5f, 0.5f),
+        new Vector3(0.5f, -0.5f, 0.5f),
+        new Vector3(0.5f, 0.5f, 0.5f),
+        new Vector3(-0.5f, 0.5f, 0.5f)
     };
 
     public static readonly Dictionary<string, int[]> voxelFace = new Dictionary<string, int[]>

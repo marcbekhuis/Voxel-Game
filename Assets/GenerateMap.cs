@@ -6,21 +6,21 @@ public class GenerateMap : MonoBehaviour
 {
     [SerializeField] private float scale = 1;
     [SerializeField] private int seed = 0;
-    [SerializeField] private 
+    [SerializeField] private Vector2Int minMapsize = new Vector2Int(-100, -100);
+    [SerializeField] private Vector2Int maxMapsize = new Vector2Int(100, 100);
 
     // Start is called before the first frame update
     void Start()
     {
         Generate();
-        //RenderBlocks.instance.Render();
-        LandscapeRenderer.instance.Render();
+        MapRenderer.instance.Render();
     }
 
     public void Generate()
     {
-        for (int x = -100; x < 100; x++)
+        for (int x = minMapsize.x; x < maxMapsize.x; x++)
         {
-            for (int z = -100; z < 100; z++)
+            for (int z = minMapsize.y; z < maxMapsize.y; z++)
             {
                 int maxY = Mathf.RoundToInt(Mathf.Pow(Mathf.PerlinNoise(x / scale + seed, z / scale + seed), 2) * MapData.instance.maxLandscapeHeight);
                 for (int y = maxY; y >= MapData.instance.maxDepth; y--)
