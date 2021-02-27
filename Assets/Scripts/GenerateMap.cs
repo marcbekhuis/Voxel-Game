@@ -15,7 +15,9 @@ public class GenerateMap : MonoBehaviour
     void Start()
     {
         heightNoise.Setup();
+        DebugDuration.instance.DebugProcessDuration("Setup HeightNoise");
         Generate();
+        DebugDuration.instance.DebugProcessDuration("Generate Landscape");
         MapRenderer.instance.Render();
     }
 

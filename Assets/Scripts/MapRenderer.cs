@@ -35,6 +35,7 @@ public class MapRenderer : MonoBehaviour
         if (currentPlayerChunkPosition == lastPlayerChunkPosition) return;
         StopAllCoroutines();
         GetUnUsedChunks(currentPlayerChunkPosition);
+        DebugDuration.instance.DebugProcessDuration("Collect Unused chunks");
         StartCoroutine(RenderChunks(currentPlayerChunkPosition));
         lastPlayerChunkPosition = currentPlayerChunkPosition;
     }
@@ -75,11 +76,11 @@ public class MapRenderer : MonoBehaviour
 
     private void CreateChunk(Vector2Int chunkPosition)
     {
-        Debug.LogError("Create Chunk");
         ChunkRenderer placedChunk = Instantiate(chunkPrefab, chunksParent);
         placedChunk.transform.position = new Vector3(chunkPosition.x, 0, chunkPosition.y) * chunksize;
         chunks.Add(chunkPosition, placedChunk);
         placedChunk.RenderChunk(new Vector3Int(chunkPosition.x, 0 , chunkPosition.y));
+        DebugDuration.instance.DebugProcessDuration("Create Chunk");
     }
 
     private void ReUseChunk(Vector2Int chunkPosition)
@@ -89,6 +90,7 @@ public class MapRenderer : MonoBehaviour
         placedChunk.transform.position = new Vector3(chunkPosition.x, 0, chunkPosition.y) * chunksize;
         chunks.Add(chunkPosition, placedChunk);
         placedChunk.RenderChunk(new Vector3Int(chunkPosition.x, 0, chunkPosition.y));
+        DebugDuration.instance.DebugProcessDuration("ReUse Chunk");
     }
 
     private bool InsideCircle(Vector2 centerCircle, Vector2 tilePostion, float radius)
